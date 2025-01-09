@@ -1,9 +1,34 @@
 "use strict";
+
 ///////////////////////////////////////////////////////////
 // Alumnes: Pau Muñoz Serra i Alba Matamoros Morales
 ///////////////////////////////////////////////////////////
+
 function init() {
-    //TouchEmulator();
+	//TouchEmulator();
+	$(document).keydown(function (e) {
+		const eventCodiTecla = e.which // Obtiene el código de la tecla presionada
+		const tecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente
+
+		if (tecla.length) {
+			tecla.css("fill", "red");
+		}
+	});
+
+	$(document).keyup(function (e) {
+        const eventCodiTecla = e.which; // Obtiene el código de la tecla soltada
+        const tecla = $(`#k${eventCodiTecla}`); // Selecciona el rectángulo correspondiente a la tecla
+
+        if (tecla.length) { // Si existe el rectángulo
+			if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
+				tecla.css("fill", "black"); // Vuelve a su color original (Numeros)
+			} else {
+				tecla.css("fill", "white"); // Vuelve a su color original (Letras)
+			}
+        }
+    });
 }
-init();
-//# sourceMappingURL=PianoMan.js.map
+
+$(document).ready(function () {
+    init(); // Inicializa cuando el DOM esté listo
+});
