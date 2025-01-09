@@ -1,0 +1,17 @@
+"use strict";
+declare const $ : any;
+
+///////////////////////////////////////////////////////////
+// Alumnes: Pau Muñoz Serra i Alba Matamoros Morales
+///////////////////////////////////////////////////////////
+
+function init() {
+	//TouchEmulator();
+	
+}
+
+
+
+
+
+init();
