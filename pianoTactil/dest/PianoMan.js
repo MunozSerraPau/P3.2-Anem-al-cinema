@@ -29,7 +29,7 @@ function init() {
     });
 
     
-    $(".white, .black").on("touchend", function(e) {
+    $(".white, .black").on("touchend", function() {
         const id = $(this).attr("id");
         const eventTecla = $(`#${id}`);
         const eventCodiTecla = id.substring(1); // Obtiene el código de la tecla desde el ID

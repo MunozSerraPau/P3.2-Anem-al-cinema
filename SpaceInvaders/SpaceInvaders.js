@@ -19,9 +19,41 @@ class Destructor {
 
 		// Moure la nau a la posició inicial
 		this.nau = document.getElementById("nau");
-		this.nau.setAttribute("transform", "translate(" + this.xPos + " " + this.yPos + ")");
+		this.nau.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
+		
+		//Moviment nau
+		this.moureNau();
+	}
+
+	moureNau() {
+		$(document).keydown((event) => {
+			if (event.key === "ArrowLeft") {
+				this.moureEsquerra();
+			} else if (event.key === "ArrowRight") {
+				this.moureDreta();
+			}
+		});
+	}
+
+	moureEsquerra() {
+		if (this.xPos > 0) {
+			this.xPos -= 10;
+			this.updatePosition();
+		}
+	}
+
+	moureDreta() {
+		if (this.xPos < WIDTH) {
+			this.xPos += 10;
+			this.updatePosition();
+		}
+	}
+
+	actualitzarPosicio() {
+		this.nau.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
 	}
 }
+
 
 class Exercit {
 	constructor() {
@@ -50,7 +82,6 @@ function init() {
 	// Crear la nau i l'exèrcit dels aliens
 	let destructor = new Destructor();
 	let exercit = new Exercit();
-	
 }
 
 init();
