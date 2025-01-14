@@ -5,18 +5,36 @@
 ///////////////////////////////////////////////////////////
 
 function init() {
+	//TouchEmulator();
+
+	const llistatTeclaCanvi = {
+		//K, L, Ñ
+		"75": 'k82',
+		"76": 'k84',
+		"192": 'k89',
+		//Q, W, E:
+		"81": 'k71',
+		"87": 'k72',
+		"69": 'k74',
+	}
+
 	let teclaSeleccionada = {};
 
-	//TouchEmulator();
 	$(document).keydown(function (e) {
-		const eventCodiTecla = e.which // Obtiene el código de la tecla presionada
-		const eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente
-		const idTeclaSeleccionada = eventTecla.attr('id');
+		let eventCodiTecla = e.which // Obtiene el código de la tecla presionada
+		let eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente		
+		let idTeclaSeleccionada = eventTecla.attr('id');
+
+		if (!idTeclaSeleccionada) {
+			const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
+			idTeclaSeleccionada = canviTeclaSeleccionada;
+			eventTecla = $(`#${canviTeclaSeleccionada}`);
+		}
 
 		if (!teclaSeleccionada[eventCodiTecla]) {
 			teclaSeleccionada[eventCodiTecla] = true;
-			
-			if (eventTecla.length) {
+
+			if (idTeclaSeleccionada) {
 				soTecla(idTeclaSeleccionada); // Reproduce el sonido de la tecla
 				eventTecla.addClass('activa');
 			}
@@ -24,8 +42,15 @@ function init() {
 	});
 
 	$(document).keyup(function (e) {
-        const eventCodiTecla = e.which; //r Obtiene el código de la tecla soltada
-        const eventTecla = $(`#k${eventCodiTecla}`); // Selecciona el rectángulo correspondiente a la tecla
+        let eventCodiTecla = e.which; //r Obtiene el código de la tecla soltada
+        let eventTecla = $(`#k${eventCodiTecla}`); // Selecciona el rectángulo correspondiente a la tecla
+		let idTeclaSeleccionada = eventTecla.attr('id');
+
+		if (!idTeclaSeleccionada) {
+			const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
+			idTeclaSeleccionada = canviTeclaSeleccionada;
+			eventTecla = $(`#${canviTeclaSeleccionada}`);
+		}
 
         if (eventTecla.length) { // Si existe el rectángulo
 			if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
@@ -40,36 +65,42 @@ function init() {
     });
 }
 
-$(document).ready(function () {
-    init(); // Inicializa cuando el DOM esté listo
-});
-
 function soTecla( teclaId ) {
     const llistatTeclaSo = {
-        "k65": 'a1',  
-        "k83": 'a1s',
-        "k68": 'a2', 
-        "k70": 'a2s',
-        "k71": 'b1', 
-        "k72": 'b2', 
-        "k74": 'c1', 
-        "k82": 'c1s',
-        "k84": 'c2', 
-        "k89": 'c2s',
-        "k85": 'd1', 
-        "k73": 'd1s', 
-        "k79": 'd2',
-        "k80": 'd2s', 
-        "k49": 'e1', 
-        "k50": 'e2', 
-        "k51": 'f1', 
-        "k52": 'f1s', 
-        "k53": 'f2', 
-        "k54": 'f2s', 
-        "k55": 'g1', 
-        "k56": 'g1s', 
-        "k57": 'g2', 
-        "k48": 'g2s', 
+		//Letras
+        "k65": 'c1', //A 
+        "k83": 'd1', //S
+        "k68": 'e1', //D
+        "k70": 'f1', //F
+        "k71": 'g1', //G
+        "k72": 'a1', //H
+        "k74": 'b1', //J
+        "k82": 'c2', //R
+        "k84": 'd2', //T
+        "k89": 'e2', //Y
+        "k85": 'f2', //U
+        "k73": 'g2', //I
+        "k79": 'a2', //O
+        "k80": 'b2', //P
+		//Numeros
+        "k49": 'c1s', //1
+        "k50": 'd1s', //2
+        "k51": 'f1s', //3
+        "k52": 'g1s', //4
+        "k53": 'a1s', //5
+        "k54": 'c2s', //6
+        "k55": 'd2s', //7
+        "k56": 'f2s', //8
+        "k57": 'g2s', //9
+        "k48": 'a2s', //0
+		//K, L, Ñ
+		"75": 'c2', //K
+        "76": 'd2', //L
+        "192": 'e2', //Ñ
+        //Q, W, E:
+        "81": 'g1', //Q
+        "87": 'a1', //W
+        "69": 'b1', //E
     }
 
 	const nomArxiuSo = llistatTeclaSo[teclaId]; // Obtiene el sonido correspondiente a la tecla
@@ -79,3 +110,7 @@ function soTecla( teclaId ) {
 	soNota.play();
 	return;
 }
+
+$(document).ready(function () {
+    init(); // Inicializa cuando el DOM esté listo
+});
