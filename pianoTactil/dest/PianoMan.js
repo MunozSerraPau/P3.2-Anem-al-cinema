@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////
 
 function init() {
-	//TouchEmulator();
+	TouchEmulator();
 
 	const llistatTeclaCanvi = {
 		//K, L, Ñ
@@ -18,7 +18,7 @@ function init() {
 		"69": 'k74',
 	}
 
-	let teclaSeleccionada = {};
+    let teclaSeleccionada = {};
 
 	$(".white, .black").on("touchstart", function() {
         const id = $(this).attr("id");
@@ -57,20 +57,7 @@ function init() {
 		let eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente		
 		let idTeclaSeleccionada = eventTecla.attr('id');
 
-		if (!idTeclaSeleccionada) {
-			const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
-			idTeclaSeleccionada = canviTeclaSeleccionada;
-			eventTecla = $(`#${canviTeclaSeleccionada}`);
-		}
-
-		if (!teclaSeleccionada[eventCodiTecla]) {
-			teclaSeleccionada[eventCodiTecla] = true;
-
-			if (idTeclaSeleccionada) {
-				soTecla(idTeclaSeleccionada); // Reproduce el sonido de la tecla
-				eventTecla.addClass('activa');
-			}
-		}
+        seleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, idTeclaSeleccionada);
 	});
 
 	$(document).keyup(function (e) {
@@ -78,26 +65,44 @@ function init() {
         let eventTecla = $(`#k${eventCodiTecla}`); // Selecciona el rectángulo correspondiente a la tecla
 		let idTeclaSeleccionada = eventTecla.attr('id');
 
-		if (!idTeclaSeleccionada) {
-			const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
-			idTeclaSeleccionada = canviTeclaSeleccionada;
-			eventTecla = $(`#${canviTeclaSeleccionada}`);
-		}
-
-        if (eventTecla.length) { // Si existe el rectángulo
-			if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
-				eventTecla.addClass('black'); // Vuelve a su color original (Numeros)
-			} else {
-				eventTecla.addClass('white'); // Vuelve a su color original (Letras)
-			}
-        }
-
-		teclaSeleccionada[eventCodiTecla] = false;
-		eventTecla.removeClass('activa');
+        deseleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, idTeclaSeleccionada);
     });
+}
 
+function seleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, idTeclaSeleccionada) {
+    if (!idTeclaSeleccionada) {
+        const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
+        idTeclaSeleccionada = canviTeclaSeleccionada;
+        eventTecla = $(`#${canviTeclaSeleccionada}`);
+    }
 
-	
+    if (!teclaSeleccionada[eventCodiTecla]) {
+        teclaSeleccionada[eventCodiTecla] = true;
+
+        if (idTeclaSeleccionada) {
+            soTecla(idTeclaSeleccionada); // Reproduce el sonido de la tecla
+            eventTecla.addClass('activa');
+        }
+    }
+}
+
+function deseleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, idTeclaSeleccionada) {
+    if (!idTeclaSeleccionada) {
+        const canviTeclaSeleccionada = llistatTeclaCanvi[eventCodiTecla];
+        idTeclaSeleccionada = canviTeclaSeleccionada;
+        eventTecla = $(`#${canviTeclaSeleccionada}`);
+    }
+
+    if (eventTecla.length) { // Si existe el rectángulo
+        if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
+            eventTecla.addClass('black'); // Vuelve a su color original (Numeros)
+        } else {
+            eventTecla.addClass('white'); // Vuelve a su color original (Letras)
+        }
+    }
+
+    teclaSeleccionada[eventCodiTecla] = false;
+    eventTecla.removeClass('activa');
 }
 
 function soTecla( teclaId ) {
