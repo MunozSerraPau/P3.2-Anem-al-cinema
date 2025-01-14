@@ -1,7 +1,7 @@
 "use strict";
 
 ///////////////////////////////////////////////////////////
-// Alumnes: 
+//   Alumnes: Pau Muñoz Serra i Alba Matamoros Morales   //
 ///////////////////////////////////////////////////////////
 
 const FILES = 5;		// Nombre de files de l'exèrcit dels aliens
@@ -84,4 +84,69 @@ function init() {
 	let exercit = new Exercit();
 }
 
-init();
+$(document).ready(function () {
+    init(); // Inicializa cuando el DOM esté listo
+});
+
+
+/**
+ * $(document).keydown(function (e) {
+        
+        switch (e.which) {
+            case 37: // Flecha izquierda
+                moureNauEsquerra();
+                break;
+            case 39: // Flecha derecha
+                if (!intervalId) {
+                    intervalId = setInterval(function () {
+                        let nau = $('#nau');
+                        let joc = $('#joc');
+                        let posNau = nau.position();
+                        let posJoc = joc.position();
+                        let jocWidth = joc.width();
+                        let nauWidth = nau.width();
+
+                        if (posNau.left + nauWidth < posJoc.left + jocWidth) {
+                            nau.css('left', posNau.left + 10 + 'px');
+                        }
+                    }, 50); // Ajusta la velocidad del movimiento
+                }
+                moureNauDreta();
+                break;
+            case 38 || 40: // Flecha arriba
+                dispara();
+                break;
+        }
+
+        if (e.which === 39) { // Flecha derecha
+            
+        }
+    });
+    $(document).ready(function() {
+        $(".white").mouseenter(function() {
+            // Obtener el id del div al pasar el cursor
+            const id = $(this).attr("id");
+            const eventTecla = $(`#k${id}`); // Busca el elemento con ID correspondiente
+            console.log("El ID del div es: " + id);
+
+
+            if (!teclaSeleccionada[id]) {
+                console.log("La tecla no está seleccionada" + eventTecla);
+                teclaSeleccionada[id] = true;
+                
+                if (eventTecla.length) {
+                    console.log("La tecla existe");
+                    soTecla(id); // Reproduce el sonido de la tecla
+                    eventTecla.addClass('activa');
+                }
+            }
+
+        });
+
+        $(".black").mouseenter(function() {
+            // Obtener el id del div al pasar el cursor
+            var id = $(this).attr("id");
+            console.log("El ID del div es: " + id);
+        });
+    });
+ */
