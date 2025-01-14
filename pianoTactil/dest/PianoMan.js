@@ -5,16 +5,21 @@
 ///////////////////////////////////////////////////////////
 
 function init() {
+	let teclaSeleccionada = {};
+
 	//TouchEmulator();
 	$(document).keydown(function (e) {
 		const eventCodiTecla = e.which // Obtiene el código de la tecla presionada
 		const eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente
 		const idTeclaSeleccionada = eventTecla.attr('id');
-		console.log(idTeclaSeleccionada);
 
-		if (eventTecla.length) {
-			soTecla(idTeclaSeleccionada); // Reproduce el sonido de la tecla
-			eventTecla.addClass('activa');
+		if (!teclaSeleccionada[eventCodiTecla]) {
+			teclaSeleccionada[eventCodiTecla] = true;
+			
+			if (eventTecla.length) {
+				soTecla(idTeclaSeleccionada); // Reproduce el sonido de la tecla
+				eventTecla.addClass('activa');
+			}
 		}
 	});
 
@@ -30,6 +35,7 @@ function init() {
 			}
         }
 
+		teclaSeleccionada[eventCodiTecla] = false;
 		eventTecla.removeClass('activa');
     });
 }
