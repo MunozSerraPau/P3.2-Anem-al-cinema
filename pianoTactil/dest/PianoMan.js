@@ -24,41 +24,28 @@ function init() {
         const id = $(this).attr("id");
         const eventTecla = $(`#${id}`);
         const eventCodiTecla = id.substring(1); // Obtiene el código de la tecla desde el ID
-
-        if (!teclaSeleccionada[eventCodiTecla]) {
-            teclaSeleccionada[eventCodiTecla] = true;
-
-            if (eventTecla.length) {
-                soTecla(id); // Reproduce el sonido de la tecla
-                eventTecla.addClass('activa');
-            }
-        }
+        
+        seleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, id);
     });
 
+    
     $(".white, .black").on("touchend", function(e) {
         const id = $(this).attr("id");
         const eventTecla = $(`#${id}`);
         const eventCodiTecla = id.substring(1); // Obtiene el código de la tecla desde el ID
 
-        if (eventTecla.length) { // Si existe el rectángulo
-            if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
-                eventTecla.addClass('black'); // Vuelve a su color original (Numeros)
-            } else {
-                eventTecla.addClass('white'); // Vuelve a su color original (Letras)
-            }
-        }
-
-        teclaSeleccionada[eventCodiTecla] = false;
-        eventTecla.removeClass('activa');
+        deseleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, id);
     });
+
 
 	$(document).keydown(function (e) {
 		let eventCodiTecla = e.which // Obtiene el código de la tecla presionada
-		let eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente		
+        let eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente
 		let idTeclaSeleccionada = eventTecla.attr('id');
 
         seleccionarTecla(llistatTeclaCanvi, teclaSeleccionada, eventCodiTecla, eventTecla, idTeclaSeleccionada);
 	});
+
 
 	$(document).keyup(function (e) {
         let eventCodiTecla = e.which; //r Obtiene el código de la tecla soltada
