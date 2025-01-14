@@ -20,6 +20,38 @@ function init() {
 
 	let teclaSeleccionada = {};
 
+	$(".white, .black").on("touchstart", function() {
+        const id = $(this).attr("id");
+        const eventTecla = $(`#${id}`);
+        const eventCodiTecla = id.substring(1); // Obtiene el código de la tecla desde el ID
+
+        if (!teclaSeleccionada[eventCodiTecla]) {
+            teclaSeleccionada[eventCodiTecla] = true;
+
+            if (eventTecla.length) {
+                soTecla(id); // Reproduce el sonido de la tecla
+                eventTecla.addClass('activa');
+            }
+        }
+    });
+
+    $(".white, .black").on("touchend", function(e) {
+        const id = $(this).attr("id");
+        const eventTecla = $(`#${id}`);
+        const eventCodiTecla = id.substring(1); // Obtiene el código de la tecla desde el ID
+
+        if (eventTecla.length) { // Si existe el rectángulo
+            if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
+                eventTecla.addClass('black'); // Vuelve a su color original (Numeros)
+            } else {
+                eventTecla.addClass('white'); // Vuelve a su color original (Letras)
+            }
+        }
+
+        teclaSeleccionada[eventCodiTecla] = false;
+        eventTecla.removeClass('activa');
+    });
+
 	$(document).keydown(function (e) {
 		let eventCodiTecla = e.which // Obtiene el código de la tecla presionada
 		let eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente		
@@ -63,6 +95,9 @@ function init() {
 		teclaSeleccionada[eventCodiTecla] = false;
 		eventTecla.removeClass('activa');
     });
+
+
+	
 }
 
 function soTecla( teclaId ) {
