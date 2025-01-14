@@ -22,20 +22,34 @@ function atacar() {
     // Lògica per atacar
 }
 function init() {
-    $(document).keydown(function (event) {
-        const eventCodiTecla = event.which; // Retorna l'id de la tecla que s'ha premut
-        console.log(`Tecla premuda: ${eventCodiTecla} -- '${event.key}'`);
-        switch (eventCodiTecla) {
-            case 37:
-                moureNauEsquerra();
-                break;
-            case 39:
-                moureNauDreta();
-                break;
-            case 32:
-                atacar();
-                break;
+    
+    $(document).keydown(function (e) {
+		const eventCodiTecla = e.which // Obtiene el código de la tecla presionada
+        console.log('1--------' + eventCodiTecla);
+		const eventTecla = $(`#k${eventCodiTecla}`); // Busca el elemento con ID correspondiente
+        console.log('2---------' + eventTecla);
+		const idTeclaSeleccionada = eventTecla.attr('id');
+		console.log('3--------------' + idTeclaSeleccionada);
+
+		if (eventTecla.length) {
+			
+
+		}
+	});
+
+	$(document).keyup(function (e) {
+        const eventCodiTecla = e.which; //r Obtiene el código de la tecla soltada
+        const eventTecla = $(`#k${eventCodiTecla}`); // Selecciona el rectángulo correspondiente a la tecla
+
+        if (eventTecla.length) { // Si existe el rectángulo
+			if (eventCodiTecla >= 48 && eventCodiTecla <= 57) {
+				eventTecla.addClass('black'); // Vuelve a su color original (Numeros)
+			} else {
+				eventTecla.addClass('white'); // Vuelve a su color original (Letras)
+			}
         }
+
+		eventTecla.removeClass('activa');
     });
     // Atacar amb tecles
 }
