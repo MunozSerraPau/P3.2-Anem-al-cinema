@@ -22,9 +22,11 @@ class Destructor {
 		this.nau = document.getElementById("nau");
 		this.nau.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
 		
+		
 		//Moviment nau
 		this.moureNau();
 		this.disparar();
+		
 	}
 
 
@@ -61,10 +63,11 @@ class Destructor {
 								bala.remove();
 								alien.remove();
 								aliensDeads++;
+								this.comprovarVictoria();
 							}
 						});
 					}
-				}, 20);			
+				}, 2);			
 			}
 		});
 	}
@@ -138,6 +141,12 @@ class Destructor {
 	actualitzarPosicio() {
 		this.nau.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
 	}
+
+	comprovarVictoria() {
+		if (aliensDeads == ALIENS) {
+			alert("Has guanyat!");
+		}
+	}
 }
 
 
@@ -170,10 +179,7 @@ function init() {
 	// Crear la nau i l'exèrcit dels aliens
 	let destructor = new Destructor();
 	let exercit = new Exercit();
-	if (aliensDeads === ALIENS) {
-		alert("Has guanyat!");
-		return;
-	}
+	
 }
 
 $(document).ready(function () {
