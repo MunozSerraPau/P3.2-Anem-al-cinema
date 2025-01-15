@@ -25,6 +25,26 @@ class Destructor {
 		//Moviment nau
 		this.moureNau();
 		this.disparar();
+		this.comprovarDerrota();
+	}
+
+	comprovarDerrota() {
+		setInterval(() => {
+			let aliens = document.querySelectorAll("#aliens use");
+			aliens.forEach((alien) => {
+				let alienPos = alien.getBoundingClientRect();
+				let nauPos = document.getElementById("nau").getBoundingClientRect();
+				if (
+					alienPos.left < nauPos.right &&
+					alienPos.right > nauPos.left &&
+					alienPos.top < nauPos.bottom &&
+					alienPos.bottom > nauPos.top
+				) {
+					alert("Has perdut!");
+					location.reload();
+				}
+			});
+		}, 100);
 	}
 
 	disparar() {
@@ -82,7 +102,8 @@ class Destructor {
 						bala.remove();
 						alien.remove();
 						aliensDeads++;
-						;
+
+						// Comprovar si s'han eliminat tots els aliens
 						this.comprovarVictoria();
 					}
 				});
@@ -163,7 +184,10 @@ class Destructor {
 		if (aliensDeads == ALIENS) {
 			setTimeout(() => {
 				alert("Has Guanyat!");
+				location.reload();
 			}, 500)
+		} else {
+			document.getElementById("puntsAliens").textContent = aliensDeads;
 		}
 	}
 }
