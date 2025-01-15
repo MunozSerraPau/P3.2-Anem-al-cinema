@@ -63,6 +63,7 @@ class Destructor {
 								bala.remove();
 								alien.remove();
 								aliensDeads++;
+								;
 								this.comprovarVictoria();
 							}
 						});
@@ -144,7 +145,9 @@ class Destructor {
 
 	comprovarVictoria() {
 		if (aliensDeads == ALIENS) {
-			alert("Has guanyat!");
+			setTimeout(() => {
+				alert("Has Guanyat!");
+			}, 500)
 		}
 	}
 }
