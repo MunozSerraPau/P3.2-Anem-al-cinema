@@ -23,6 +23,48 @@ class Destructor {
 		
 		//Moviment nau
 		this.moureNau();
+		this.disparar();
+	}
+
+
+	disparar() {
+		$(document).keydown((event) => {
+			if (event.key === " " && document.getElementById("bala") === null) {
+				let bala = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+				bala.setAttribute("x", this.xPos + -2);
+				bala.setAttribute("y", this.yPos - 10);
+				bala.setAttribute("width", 5);
+				bala.setAttribute("height", 10);
+				bala.setAttribute("fill", "red");
+				bala.setAttribute("id", "bala");
+				document.getElementById("joc").appendChild(bala);
+
+				let intervalId = setInterval(() => {
+					let yPos = parseInt(bala.getAttribute("y"));
+					if (yPos <= 0) {
+						clearInterval(intervalId);
+						bala.remove();
+					} else {
+						bala.setAttribute("y", yPos - 5);
+						let aliens = document.querySelectorAll("#aliens use");
+						aliens.forEach((alien) => {	
+							let alienPos = alien.getBoundingClientRect();
+							let balaPos = bala.getBoundingClientRect();
+							if (
+								balaPos.left < alienPos.right &&
+								balaPos.right > alienPos.left &&
+								balaPos.top < alienPos.bottom &&
+								balaPos.bottom > alienPos.top
+							) {
+								clearInterval(intervalId);
+								bala.remove();
+								alien.remove();
+							}
+						});
+					}
+				}, 20);			
+			}
+		});
 	}
 
 	moureNau() {
@@ -40,7 +82,6 @@ class Destructor {
 		};
 
 		$(document).keydown((event) => {
-			console.log(event.key);
 			if (event.key === "ArrowLeft" || event.key === "a" || event.key === "A") {
 				movimentEsquerra = true;
 				if (!intervalId) {
@@ -77,10 +118,6 @@ class Destructor {
 		});
 	}
 
-	disparar() {
-		$(document).keydown((event) => {
-		});
-	}
 
 	moureEsquerra() {
 		if (this.xPos > 20) {
