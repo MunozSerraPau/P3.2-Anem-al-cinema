@@ -22,11 +22,9 @@ class Destructor {
 		this.nau = document.getElementById("nau");
 		this.nau.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
 		
-		
 		//Moviment nau
 		this.moureNau();
 		this.disparar();
-		
 	}
 
 	disparar() {
@@ -196,8 +194,6 @@ class Exercit {
 			if (this.xPos >= (WIDTH - document.getElementById("aliens").getBoundingClientRect().width - 20)) {
 				this.direction = -1;
 				this.yPos += 10;
-				console.log(this.speed);
-				console.log(aliensDeads);
 			} else if (this.xPos <= 20) {
 				this.direction = 1;
 				this.yPos += 10;
@@ -212,7 +208,6 @@ function init() {
 	// Crear la nau i l'exèrcit dels aliens
 	let destructor = new Destructor();
 	let exercit = new Exercit();
-	
 }
 
 $(document).ready(function () {
