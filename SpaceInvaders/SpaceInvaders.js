@@ -26,26 +26,70 @@ class Destructor {
 	}
 
 	moureNau() {
-		$(document).keydown((event) => {
-			if (event.key === "ArrowLeft") {
+		let intervalId = null;
+		let movimentEsquerra = false;
+		let movimentDreta = false;
+
+		const move = () => {
+			if (movimentEsquerra) {
 				this.moureEsquerra();
-			} else if (event.key === "ArrowRight") {
+			}
+			if (movimentDreta) {
 				this.moureDreta();
 			}
+		};
+
+		$(document).keydown((event) => {
+			if (event.key === "ArrowLeft" || event.key === "a") {
+				movimentEsquerra = true;
+				if (!intervalId) {
+					intervalId = setInterval(move, 20);
+				}
+			} else if (event.key === "ArrowRight" || event.key === "d") {
+				movimentDreta = true;
+				if (!intervalId) {
+					intervalId = setInterval(move, 20);
+				}
+			}
+        });
+
+        $(document).keyup((event) => {
+			if (event.key === "ArrowLeft") {
+				movimentEsquerra = false;
+			} else if (event.key === "ArrowRight") {
+				movimentDreta = false;
+			}
+			if (!movimentEsquerra && !movimentDreta) {
+				clearInterval(intervalId);
+				intervalId = null;
+			}
+		});
+
+		$(document).mousemove((event) => {
+			let ratoliX = event.clientX;
+
+			this.xPos = Math.max(20, Math.min(WIDTH - 20, ratoliX));
+
+			this.actualitzarPosicio();
+		});
+	}
+
+	disparar() {
+		$(document).keydown((event) => {
 		});
 	}
 
 	moureEsquerra() {
-		if (this.xPos > 0) {
-			this.xPos -= 10;
-			this.updatePosition();
+		if (this.xPos > 20) {
+			this.xPos -= 5;
+			this.actualitzarPosicio();
 		}
 	}
 
 	moureDreta() {
-		if (this.xPos < WIDTH) {
-			this.xPos += 10;
-			this.updatePosition();
+		if (this.xPos < WIDTH - 20) {
+			this.xPos += 5;
+			this.actualitzarPosicio();
 		}
 	}
 
