@@ -77,7 +77,7 @@ class Destructor {
 		bala.setAttribute("y", this.yPos - 10);
 		bala.setAttribute("width", 5);
 		bala.setAttribute("height", 10);
-		bala.setAttribute("fill", "red");
+		bala.setAttribute("fill", "purple");
 		bala.setAttribute("id", "bala");
 		document.getElementById("joc").appendChild(bala);
 
@@ -108,7 +108,7 @@ class Destructor {
 					}
 				});
 			}
-		}, 2);	
+		}, 5);	
 	}
 
 	moureNau() {
@@ -221,23 +221,33 @@ class Exercit {
 	}
 
 	moureExercitAliens() {
-		//Velocitat dels aliens	depenent dels aliens morts.
-
 		setInterval(() => {
+			// Velocitat dels aliens depenent dels aliens morts.
 			if (aliensDeads == 10) { this.speed = 3; }
 			if (aliensDeads == 20) { this.speed = 4; } 
 			else if (aliensDeads == 30) { this.speed = 5; } 
-
+	
 			this.xPos += this.speed * this.direction;
+	
+			// Comprovar les columnes
+			let alienElements = document.querySelectorAll("#aliens use");
+			let minX = WIDTH, maxX = 0;  // Variables per controlar la posició de l'exèrcit
 			
-			if (this.xPos >= (WIDTH - document.getElementById("aliens").getBoundingClientRect().width)) {
+			alienElements.forEach((alien) => {
+				let alienPos = alien.getBoundingClientRect();
+				minX = Math.min(minX, alienPos.left);
+				maxX = Math.max(maxX, alienPos.right);
+			});
+	
+			// Si el exèrcit arriba al límit dret o esquerre, canvia de direcció i baixa
+			if (maxX >= (WIDTH - 20)) {
 				this.direction = -1;
-				this.yPos += 10;
-			} else if (this.xPos <= 0) {
+				this.yPos += 2;
+			} else if (minX <= 20) {
 				this.direction = 1;
-				this.yPos += 10;
+				this.yPos += 2;
 			}
-		
+	
 			this.exercit.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
 		}, 30);
 	}
