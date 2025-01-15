@@ -141,7 +141,6 @@ class Destructor {
 		});
 	}
 
-
 	moureEsquerra() {
 		if (this.xPos > 20) {
 			this.xPos -= 5;
