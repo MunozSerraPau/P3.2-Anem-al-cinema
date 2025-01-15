@@ -5,7 +5,7 @@
 ///////////////////////////////////////////////////////////
 
 function init() {
-	TouchEmulator();
+	//TouchEmulator();
 
 	const llistatTeclaCanvi = {
 		//K, L, Ñ

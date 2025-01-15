@@ -29,45 +29,51 @@ class Destructor {
 		
 	}
 
-
 	disparar() {
 		$(document).keydown((event) => {
-			if (event.key === " " && document.getElementById("bala") === null) {
+			if ((event.key === " " || event.key === "Enter") && document.getElementById("bala") === null) {
 				let bala = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+				
 				bala.setAttribute("x", this.xPos + -2);
 				bala.setAttribute("y", this.yPos - 10);
+
 				bala.setAttribute("width", 5);
 				bala.setAttribute("height", 10);
-				bala.setAttribute("fill", "red");
+
+				bala.setAttribute("fill", "purple");
 				bala.setAttribute("id", "bala");
+				
 				document.getElementById("joc").appendChild(bala);
 
 				let intervalId = setInterval(() => {
 					let yPos = parseInt(bala.getAttribute("y"));
+
 					if (yPos <= 0) {
 						clearInterval(intervalId);
 						bala.remove();
 					} else {
 						bala.setAttribute("y", yPos - 5);
 						let aliens = document.querySelectorAll("#aliens use");
-						aliens.forEach((alien) => {	
-							let alienPos = alien.getBoundingClientRect();
-							let balaPos = bala.getBoundingClientRect();
-							if (
-								balaPos.left < alienPos.right &&
+						aliens.forEach((alien) => {
+							// Comprovar si la bala ha col·lisionat amb un alien.
+							let alienPos = alien.getBoundingClientRect(); // Obtenir la posició de l'alien (caixa de col·lisió)
+							let balaPos = bala.getBoundingClientRect(); // Obtenir la posició de la bala (caixa de col·lisió)
+
+							if ( balaPos.left < alienPos.right && 
 								balaPos.right > alienPos.left &&
-								balaPos.top < alienPos.bottom &&
-								balaPos.bottom > alienPos.top
-							) {
+								balaPos.top < alienPos.bottom && 
+								balaPos.bottom > alienPos.top ) 
+							{
 								clearInterval(intervalId);
 								bala.remove();
 								alien.remove();
 								aliensDeads++;
+								// funcio per comprovar si s'han eliminat tots els aliens.
 								this.comprovarVictoria();
 							}
 						});
 					}
-				}, 2);			
+				}, 2);	// Velocitat de la bala.		
 			}
 		});
 	}
@@ -149,15 +155,15 @@ class Destructor {
 	}
 }
 
-
-
-
 class Exercit {
 	constructor() {
 		// Inicialitzar valors
 		this.xPos = 90;	// Posició horitzontal de l'exèrcit d'aliens
 		this.yPos = 40; // Posició vertical de l'exèrcit d'aliens
 		this.nAliens = ALIENS;
+
+		this.direction = 1;
+		this.speed = 2;
 
 		// Posicionar l'exèrcit dels aliens
 		this.exercit = document.getElementById("aliens");
@@ -172,6 +178,32 @@ class Exercit {
 				this.exercit.innerHTML += "<use id='a" + i + j + "' href='#alien' transform='translate(" + (j * 60 + 40) + " " + (i * 40 + 30) + ")'></use>";
 			}
 		}
+
+		this.moureExercitAliens();
+	}
+
+	moureExercitAliens() {
+		//Velocitat dels aliens	depenent dels aliens morts.
+
+		setInterval(() => {
+			if (aliensDeads == 10) { this.speed = 3; }
+			if (aliensDeads == 20) { this.speed = 4; } 
+			else if (aliensDeads == 30) { this.speed = 5; } 
+
+			this.xPos += this.speed * this.direction;
+			
+			if (this.xPos >= (WIDTH - document.getElementById("aliens").getBoundingClientRect().width - 20)) {
+				this.direction = -1;
+				this.yPos += 10;
+				console.log(this.speed);
+				console.log(aliensDeads);
+			} else if (this.xPos <= 20) {
+				this.direction = 1;
+				this.yPos += 10;
+			}
+		
+			this.exercit.setAttribute("transform", `translate(${this.xPos} ${this.yPos})`);
+		}, 30);
 	}
 }
 
