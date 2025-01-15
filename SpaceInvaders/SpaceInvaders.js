@@ -7,6 +7,7 @@
 const FILES = 5;		// Nombre de files de l'exèrcit dels aliens
 const COLUMNES = 8;		// Nombre de columnes de l'exèrcit dels aliens
 const ALIENS = FILES * COLUMNES;	// Nombre total d'aliens
+let aliensDeads = 0;	// Nombre d'aliens morts
 
 const WIDTH = 640;	// Amplada de l'àrea de joc
 const HEIGHT = 480;	// Alçada de l'àrea de joc
@@ -59,6 +60,7 @@ class Destructor {
 								clearInterval(intervalId);
 								bala.remove();
 								alien.remove();
+								aliensDeads++;
 							}
 						});
 					}
@@ -139,6 +141,8 @@ class Destructor {
 }
 
 
+
+
 class Exercit {
 	constructor() {
 		// Inicialitzar valors
@@ -166,6 +170,10 @@ function init() {
 	// Crear la nau i l'exèrcit dels aliens
 	let destructor = new Destructor();
 	let exercit = new Exercit();
+	if (aliensDeads === ALIENS) {
+		alert("Has guanyat!");
+		return;
+	}
 }
 
 $(document).ready(function () {
