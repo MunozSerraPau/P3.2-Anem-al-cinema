@@ -182,12 +182,13 @@ class Destructor {
 
 	comprovarVictoria() {
 		if (aliensDeads == ALIENS) {
+			document.getElementById("puntsAliens").textContent = "Puntuació: " + aliensDeads;
 			setTimeout(() => {
 				alert("Has Guanyat!");
 				location.reload();
 			}, 500)
 		} else {
-			document.getElementById("puntsAliens").textContent = aliensDeads;
+			document.getElementById("puntsAliens").textContent = "Puntuació: " + aliensDeads;
 		}
 	}
 }
@@ -229,10 +230,10 @@ class Exercit {
 
 			this.xPos += this.speed * this.direction;
 			
-			if (this.xPos >= (WIDTH - document.getElementById("aliens").getBoundingClientRect().width - 20)) {
+			if (this.xPos >= (WIDTH - document.getElementById("aliens").getBoundingClientRect().width)) {
 				this.direction = -1;
 				this.yPos += 10;
-			} else if (this.xPos <= 20) {
+			} else if (this.xPos <= 0) {
 				this.direction = 1;
 				this.yPos += 10;
 			}
