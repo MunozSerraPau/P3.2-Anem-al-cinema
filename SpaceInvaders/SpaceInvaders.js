@@ -30,49 +30,64 @@ class Destructor {
 	disparar() {
 		$(document).keydown((event) => {
 			if ((event.key === " " || event.key === "Enter") && document.getElementById("bala") === null) {
-				let bala = document.createElementNS("http://www.w3.org/2000/svg", "rect");
-				
-				bala.setAttribute("x", this.xPos + -2);
-				bala.setAttribute("y", this.yPos - 10);
-
-				bala.setAttribute("width", 5);
-				bala.setAttribute("height", 10);
-
-				bala.setAttribute("fill", "purple");
-				bala.setAttribute("id", "bala");
-				
-				document.getElementById("joc").appendChild(bala);
-
-				let intervalId = setInterval(() => {
-					let yPos = parseInt(bala.getAttribute("y"));
-
-					if (yPos <= 0) {
-						clearInterval(intervalId);
-						bala.remove();
-					} else {
-						bala.setAttribute("y", yPos - 5);
-						let aliens = document.querySelectorAll("#aliens use");
-						aliens.forEach((alien) => {
-							// Comprovar si la bala ha col·lisionat amb un alien.
-							let alienPos = alien.getBoundingClientRect(); // Obtenir la posició de l'alien (caixa de col·lisió)
-							let balaPos = bala.getBoundingClientRect(); // Obtenir la posició de la bala (caixa de col·lisió)
-
-							if ( balaPos.left < alienPos.right && 
-								balaPos.right > alienPos.left &&
-								balaPos.top < alienPos.bottom && 
-								balaPos.bottom > alienPos.top ) 
-							{
-								clearInterval(intervalId);
-								bala.remove();
-								alien.remove();
-								aliensDeads++;
-								this.comprovarVictoria();
-							}
-						});
-					}
-				}, 2);	// Velocitat de la bala.		
+				this.configurarBala();
 			}
 		});
+
+		$(document).mousedown((event) => {
+			if (event.button === 0 && document.getElementById("bala") === null) {
+				this.configurarBala();
+			} else if ((event.button === 2 && !event.shiftKey) && document.getElementById("bala") === null) {
+				this.configurarBala();
+			}
+		});
+
+		// Allow default context menu on right-click with Shift key
+		$(document).contextmenu((event) => {
+			if (!event.shiftKey) {
+				event.preventDefault();
+			}
+		});
+
+	}
+
+	configurarBala() {
+		let bala = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+		bala.setAttribute("x", this.xPos + -2);
+		bala.setAttribute("y", this.yPos - 10);
+		bala.setAttribute("width", 5);
+		bala.setAttribute("height", 10);
+		bala.setAttribute("fill", "red");
+		bala.setAttribute("id", "bala");
+		document.getElementById("joc").appendChild(bala);
+
+		let intervalId = setInterval(() => {
+			let yPos = parseInt(bala.getAttribute("y"));
+			if (yPos <= 0) {
+				clearInterval(intervalId);
+				bala.remove();
+			} else {
+				bala.setAttribute("y", yPos - 5);
+				let aliens = document.querySelectorAll("#aliens use");
+				aliens.forEach((alien) => {	
+					let alienPos = alien.getBoundingClientRect();
+					let balaPos = bala.getBoundingClientRect();
+					if (
+						balaPos.left < alienPos.right &&
+						balaPos.right > alienPos.left &&
+						balaPos.top < alienPos.bottom &&
+						balaPos.bottom > alienPos.top
+					) {
+						clearInterval(intervalId);
+						bala.remove();
+						alien.remove();
+						aliensDeads++;
+						;
+						this.comprovarVictoria();
+					}
+				});
+			}
+		}, 2);	
 	}
 
 	moureNau() {
